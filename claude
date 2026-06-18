@@ -1,0 +1,10 @@
+#!/bin/sh
+# Claude Code for QNX (or any platform without a native Bun binary)
+# Install: copy this directory to /usr/lib/claude-code/
+#          then symlink: ln -s /usr/lib/claude-code/claude /usr/bin/claude
+#
+# Override the install dir:  CLAUDE_CODE_DIR=/my/path claude
+# Override the JS bundle:    CLAUDE_CODE_JS=/my/claude-code.js claude
+
+CLAUDE_CODE_DIR="${CLAUDE_CODE_DIR:-$(dirname "$(realpath "$0")")}"
+exec node "${CLAUDE_CODE_DIR}/launcher.js" "$@"
