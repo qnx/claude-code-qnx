@@ -14,7 +14,7 @@ This guide covers installing and running Claude Code on a self-hosted QNX develo
 Clone this repository directly on your QNX system:
 
 ```sh
-git clone https://github.com/qnx/claude-code-qnx.git /usr/lib/claude-code
+sudo git clone https://github.com/qnx/claude-code-qnx.git /usr/lib/claude-code
 ```
 
 ## Step 2 — Extract the JavaScript bundle
@@ -23,7 +23,7 @@ Claude Code's application code is distributed inside the official Linux Bun bina
 
 ```sh
 cd /usr/lib/claude-code
-node extract.js --latest
+sudo node extract.js --latest
 ```
 
 This produces `claude-code.js` (~14 MB) in the install directory. It is not committed to this repo because it is a generated artifact that must be refreshed on each Claude Code release.
@@ -32,13 +32,13 @@ This produces `claude-code.js` (~14 MB) in the install directory. It is not comm
 
 ```sh
 cd /usr/lib/claude-code
-npm install ws
+sudo npm install ws
 ```
 
 Optionally, if you use YAML configuration files:
 
 ```sh
-npm install js-yaml
+sudo npm install js-yaml
 ```
 
 ## Step 4 — Set your API key
@@ -52,8 +52,8 @@ Add this to your shell profile (`~/.profile` or `~/.bashrc`) to make it permanen
 ## Step 5 — Add `claude` to your PATH
 
 ```sh
-chmod +x /usr/lib/claude-code/claude
-ln -s /usr/lib/claude-code/claude /usr/bin/claude
+sudo chmod +x /usr/lib/claude-code/claude
+sudo ln -s /usr/lib/claude-code/claude /usr/bin/claude
 ```
 
 ## Step 6 — Run Claude Code
@@ -70,7 +70,7 @@ claude
 When Anthropic releases a new Claude Code version, only the JS bundle needs updating — the launcher and shim do not change:
 
 ```sh
-node /usr/lib/claude-code/extract.js --latest
+sudo node /usr/lib/claude-code/extract.js --latest
 ```
 
 ---
