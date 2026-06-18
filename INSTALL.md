@@ -23,20 +23,10 @@ scp -r user@linuxhost:~/claude-code-qnx/* /usr/lib/claude-code/
 
 Claude Code's application code is distributed inside the official Linux Bun binary. You need to extract it once — and re-run this step whenever Anthropic releases a new version.
 
-**Option A — directly on QNX (if your QNX system has internet access):**
-
 ```sh
 cd /usr/lib/claude-code
-node extract.js --latest
-```
-
-**Option B — on a Linux host, then copy across:**
-
-```sh
-# On Linux:
-cd ~/claude-code-qnx
-node extract.js --latest
-scp claude-code.js qnxsystem:/usr/lib/claude-code/
+npm install -g @anthropic-ai/claude-code
+node extract.js $(npm root -g)/@anthropic-ai/claude-code/bin/claude.exe
 ```
 
 This produces `claude-code.js` (~14 MB) in the install directory. It is not committed to this repo because it is a generated artifact that must be refreshed on each Claude Code release.

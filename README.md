@@ -1,12 +1,36 @@
 # Claude Code: Standard vs QNX Port
 
+## Quick start
+
+After installation (see [INSTALL.md](INSTALL.md)), extract the JS bundle and launch:
+
+```sh
+node extract.js --latest
+claude
+```
+
+## Upgrading
+
+When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
+
+```sh
+# On Linux host:
+node extract.js --latest
+scp claude-code.js qnx:/var/home/qnx/qnx-claude/
+
+# Or directly on QNX (if it has internet):
+node extract.js --latest
+```
+
+---
+
 ## Standard Claude Code (`claude` binary)
 
 The official `claude` binary is a **Bun standalone executable** — a self-contained runtime (Bun v1.3.14, JavaScriptCore/WebKit engine) with the entire Claude Code JavaScript application embedded inside it.
 
 **At runtime:**
 1. The binary is executed directly — no interpreter is invoked
-2. Bun's runtime starts, reads the embedded JS bundle from offset `0xce18193` in the binary
+2. Bun's runtime starts, locates the embedded JS bundle using an internal marker string and loads it directly from the binary
 3. All `require()` calls resolve against Bun's virtual filesystem (`/$bunfs/`) — no files on disk
 4. Native addons (`image-processor.node`, `audio-capture.node`) provide PTY/media features
 
@@ -59,17 +83,3 @@ The QNX port re-uses the exact same JavaScript application, but swaps the Bun ru
 - `ws` — WebSocket (bundled inside Bun but must be installed separately under Node.js)
 - `js-yaml` — only needed if YAML config files are used
 
----
-
-## Upgrade workflow
-
-When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
-
-```sh
-# On Linux host:
-node extract.js --latest
-scp claude-code.js qnx:/var/home/qnx/qnx-claude/
-
-# Or directly on QNX (if it has internet):
-node extract.js --latest
-```
