@@ -7,16 +7,14 @@ This guide covers installing and running Claude Code on a self-hosted QNX develo
 - QNX 8.0 or later
 - Node.js 18 or later (with `npm`)
 - An [Anthropic API key](https://console.anthropic.com/)
-- Internet access from your QNX system, or a Linux host to extract the JS bundle
+- Internet access from your QNX system
 
 ## Step 1 — Get the files onto your QNX system
 
-Clone or copy this repository to your QNX system. A convenient install location is `/usr/lib/claude-code/`:
+Clone this repository directly on your QNX system:
 
 ```sh
-mkdir -p /usr/lib/claude-code
-# Copy the repo contents to that directory, e.g.:
-scp -r user@linuxhost:~/claude-code-qnx/* /usr/lib/claude-code/
+git clone https://github.com/qnx/claude-code-qnx.git /usr/lib/claude-code
 ```
 
 ## Step 2 — Extract the JavaScript bundle
@@ -25,8 +23,7 @@ Claude Code's application code is distributed inside the official Linux Bun bina
 
 ```sh
 cd /usr/lib/claude-code
-npm install -g @anthropic-ai/claude-code
-node extract.js $(npm root -g)/@anthropic-ai/claude-code/bin/claude.exe
+node extract.js --latest
 ```
 
 This produces `claude-code.js` (~14 MB) in the install directory. It is not committed to this repo because it is a generated artifact that must be refreshed on each Claude Code release.
@@ -73,12 +70,7 @@ claude
 When Anthropic releases a new Claude Code version, only the JS bundle needs updating — the launcher and shim do not change:
 
 ```sh
-# On QNX directly:
 node /usr/lib/claude-code/extract.js --latest
-
-# Or on Linux host then copy:
-node extract.js --latest
-scp claude-code.js qnxsystem:/usr/lib/claude-code/
 ```
 
 ---

@@ -2,25 +2,15 @@
 
 ## Quick start
 
-After installation (see [INSTALL.md](INSTALL.md)), extract the JS bundle and launch:
+See [INSTALL.md](INSTALL.md) for full setup instructions. Once installed, extract the JS bundle and launch:
 
 ```sh
-node extract.js --latest
+npm install -g @anthropic-ai/claude-code
+node extract.js $(npm root -g)/@anthropic-ai/claude-code/bin/claude.exe
 claude
 ```
 
-## Upgrading
-
-When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
-
-```sh
-# On Linux host:
-node extract.js --latest
-scp claude-code.js qnx:/var/home/qnx/qnx-claude/
-
-# Or directly on QNX (if it has internet):
-node extract.js --latest
-```
+The two-step extraction above makes explicit what is happening: `npm install` downloads the official Claude Code package (which contains the Linux Bun binary), and `extract.js` reads the JS application bundle out of that binary. The shorthand `node extract.js --latest` does the same thing in one step — it fetches the binary directly from the npm registry without a global install.
 
 ---
 
@@ -83,3 +73,12 @@ The QNX port re-uses the exact same JavaScript application, but swaps the Bun ru
 - `ws` — WebSocket (bundled inside Bun but must be installed separately under Node.js)
 - `js-yaml` — only needed if YAML config files are used
 
+---
+
+## Upgrading
+
+When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
+
+```sh
+node extract.js --latest
+```
