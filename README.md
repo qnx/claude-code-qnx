@@ -75,6 +75,28 @@ The QNX port re-uses the exact same JavaScript application, but swaps the Bun ru
 
 ---
 
+## How launcher.js works
+
+`launcher.js` is the Node.js entry point that bridges the gap between the extracted JS bundle and the Node.js runtime. When you invoke `claude-qnx` the execution chain is:
+
+```
+claude-qnx  (shell script)
+  → node launcher.js
+    → require('./bun-shim.js')   installs global.Bun polyfill
+    → Module._load hook          intercepts /$bunfs/ virtual paths
+    → require('./claude-code.js') the app runs
+```
+
+It does three things before handing off to the app:
+
+1. **Installs the Bun shim** — `bun-shim.js` creates `global.Bun` with Node.js implementations of all Bun APIs the app uses. This must happen before any app code runs.
+2. **Intercepts virtual filesystem paths** — hooks `Module._load` so any `require('/$bunfs/...')` call (Bun's internal virtual filesystem) is caught rather than crashing Node.js. Native addons (`.node` files) are stubbed with empty objects; other bunfs paths return an empty module.
+3. **Loads the app** — `require('./claude-code.js')` hands control to the extracted JS bundle, which runs normally under V8.
+
+`launcher.js` locates `claude-code.js` relative to its own directory (`__dirname`), which can be overridden with the `CLAUDE_CODE_JS` environment variable.
+
+---
+
 ## Upgrading
 
 When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
