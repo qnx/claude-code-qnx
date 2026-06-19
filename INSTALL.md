@@ -6,8 +6,13 @@ This guide covers installing and running Claude Code on a self-hosted QNX develo
 
 - QNX 8.0 or later
 - Node.js 18 or later (with `npm`)
-- An [Anthropic API key](https://console.anthropic.com/)
 - Internet access from your QNX system
+
+If Node.js and npm are not yet installed:
+
+```sh
+sudo apk add npm
+```
 
 If you have not already configured npm to install global packages without root, do so now:
 
@@ -44,13 +49,17 @@ cd /usr/lib/claude-code
 npm install
 ```
 
-## Step 4 — Set your API key
+## Step 4 — Set your API key (optional)
+
+If you have an Anthropic API key you can set it as an environment variable:
 
 ```sh
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 Add this to your shell profile (`~/.profile` or `~/.bashrc`) to make it permanent.
+
+If you skip this step, `claude-qnx` will prompt you for a key on first run and provide a URL to obtain one.
 
 ## Step 5 — Add `claude-qnx` to your PATH
 
