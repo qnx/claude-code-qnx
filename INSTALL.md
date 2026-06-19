@@ -49,18 +49,18 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 Add this to your shell profile (`~/.profile` or `~/.bashrc`) to make it permanent.
 
-## Step 5 — Add `claude` to your PATH
+## Step 5 — Add `claude-qnx` to your PATH
 
 ```sh
-sudo chmod +x /usr/lib/claude-code/claude
-sudo ln -s /usr/lib/claude-code/claude /usr/bin/claude
+sudo chmod +x /usr/lib/claude-code/claude-qnx
+sudo ln -s /usr/lib/claude-code/claude-qnx /usr/bin/claude-qnx
 ```
 
 ## Step 6 — Run Claude Code
 
 ```sh
-claude --version
-claude
+claude-qnx --version
+claude-qnx
 ```
 
 ---
@@ -80,7 +80,7 @@ sudo node /usr/lib/claude-code/extract.js --latest
 | Variable | Purpose |
 |---|---|
 | `ANTHROPIC_API_KEY` | Your Anthropic API key (required) |
-| `CLAUDE_CODE_DIR` | Override the install directory (default: directory containing the `claude` script) |
+| `CLAUDE_CODE_DIR` | Override the install directory (default: directory containing the `claude-qnx` script) |
 | `CLAUDE_CODE_JS` | Override the path to `claude-code.js` (default: `$CLAUDE_CODE_DIR/claude-code.js`) |
 
 ---

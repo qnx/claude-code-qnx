@@ -7,7 +7,7 @@ See [INSTALL.md](INSTALL.md) for full setup instructions. Once installed, extrac
 ```sh
 npm install -g @anthropic-ai/claude-code
 node extract.js $(npm root -g)/@anthropic-ai/claude-code/bin/claude.exe
-claude
+claude-qnx
 ```
 
 The two-step extraction above makes explicit what is happening: `npm install` downloads the official Claude Code package (which contains the Linux Bun binary), and `extract.js` reads the JS application bundle out of that binary. The shorthand `node extract.js --latest` does the same thing in one step — it fetches the binary directly from the npm registry without a global install.
@@ -40,7 +40,7 @@ The QNX port re-uses the exact same JavaScript application, but swaps the Bun ru
 | `claude-code.js` | The extracted 14 MB JS application — identical to what runs inside the official binary |
 | `bun-shim.js` | Polyfill that creates `global.Bun` with Node.js implementations of the ~22 Bun APIs the app uses |
 | `launcher.js` | Entry point: installs the shim, intercepts `/$bunfs/` virtual paths, then `require()`s `claude-code.js` |
-| `claude` | Shell wrapper: `exec node launcher.js "$@"` |
+| `claude-qnx` | Shell wrapper: `exec node launcher.js "$@"` |
 
 **At runtime:**
 1. `node launcher.js` starts under QNX's Node.js
