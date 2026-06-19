@@ -9,12 +9,21 @@ This guide covers installing and running Claude Code on a self-hosted QNX develo
 - An [Anthropic API key](https://console.anthropic.com/)
 - Internet access from your QNX system
 
+If you have not already configured npm to install global packages without root, do so now:
+
+```sh
+npm config set prefix '~/.local'
+```
+
+Make sure `~/.local/bin` is in your `PATH`.
+
 ## Step 1 — Get the files onto your QNX system
 
-Clone this repository directly on your QNX system:
+Clone this repository directly on your QNX system and take ownership of the install directory:
 
 ```sh
 sudo git clone https://github.com/qnx/claude-code-qnx.git /usr/lib/claude-code
+sudo chown -R $(whoami) /usr/lib/claude-code
 ```
 
 ## Step 2 — Extract the JavaScript bundle
@@ -23,7 +32,7 @@ Claude Code's application code is distributed inside the official Linux Bun bina
 
 ```sh
 cd /usr/lib/claude-code
-sudo node extract.js --latest
+node extract.js --latest
 ```
 
 This produces `claude-code.js` (~14 MB) in the install directory. It is not committed to this repo because it is a generated artifact that must be refreshed on each Claude Code release.
@@ -32,13 +41,7 @@ This produces `claude-code.js` (~14 MB) in the install directory. It is not comm
 
 ```sh
 cd /usr/lib/claude-code
-sudo npm install ws
-```
-
-Optionally, if you use YAML configuration files:
-
-```sh
-sudo npm install js-yaml
+npm install
 ```
 
 ## Step 4 — Set your API key
@@ -70,7 +73,7 @@ claude-qnx
 When Anthropic releases a new Claude Code version, only the JS bundle needs updating — the launcher and shim do not change:
 
 ```sh
-sudo node /usr/lib/claude-code/extract.js --latest
+node /usr/lib/claude-code/extract.js --latest
 ```
 
 ---
@@ -87,14 +90,11 @@ sudo node /usr/lib/claude-code/extract.js --latest
 
 ## Troubleshooting
 
-**`Cannot find module 'ws'`**  
-Run `npm install ws` in the install directory.
-
-**`Cannot find module 'js-yaml'`**  
-Run `npm install js-yaml` in the install directory (only needed for YAML config support).
+**`Cannot find module 'ws'`** or **`Cannot find module 'js-yaml'`**  
+Run `npm install` in the install directory. These packages are declared in `package.json` and should have been installed in Step 3.
 
 **`claude-code.js not found`**  
-Run `node extract.js --latest` to generate it. See Step 2.
+Run `node /usr/lib/claude-code/extract.js --latest` to generate it. See Step 2.
 
 **`Error: Cannot find module '/$bunfs/...'`**  
 This should not happen — the launcher intercepts all `/$bunfs/` paths. If it does, open an issue with the full stack trace.

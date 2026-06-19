@@ -2,15 +2,17 @@
 
 ## Quick start
 
-See [INSTALL.md](INSTALL.md) for full setup instructions. Once installed, extract the JS bundle and launch:
+See [INSTALL.md](INSTALL.md) for full setup instructions. Once installed, install dependencies, extract the JS bundle, and launch:
 
 ```sh
+cd /usr/lib/claude-code
+npm install
 npm install -g @anthropic-ai/claude-code
 node extract.js $(npm root -g)/@anthropic-ai/claude-code/bin/claude.exe
 claude-qnx
 ```
 
-The two-step extraction above makes explicit what is happening: `npm install` downloads the official Claude Code package (which contains the Linux Bun binary), and `extract.js` reads the JS application bundle out of that binary. The shorthand `node extract.js --latest` does the same thing in one step — it fetches the binary directly from the npm registry without a global install.
+The two-step extraction above makes explicit what is happening: `npm install -g @anthropic-ai/claude-code` downloads the official Claude Code package (which contains the Linux Bun binary), and `extract.js` reads the JS application bundle out of that binary. The shorthand `node extract.js --latest` does the same thing in one step — it fetches the binary directly from the npm registry without a global install.
 
 ---
 
@@ -28,7 +30,7 @@ The official `claude` binary is a **Bun standalone executable** — a self-conta
 
 ---
 
-## QNX Claude (`qnx-claude`)
+## QNX Claude (`claude-code-qnx`)
 
 The QNX port re-uses the exact same JavaScript application, but swaps the Bun runtime for Node.js (v18+), which does run on QNX.
 
@@ -69,9 +71,8 @@ The QNX port re-uses the exact same JavaScript application, but swaps the Bun ru
 - Screen/audio capture (Linux ELF `.node` addons, not applicable to QNX)
 - PTY host mode (`--bg-pty-host`), which requires a native QNX PTY module
 
-**External npm deps required on QNX:**
-- `ws` — WebSocket (bundled inside Bun but must be installed separately under Node.js)
-- `js-yaml` — only needed if YAML config files are used
+**External npm deps required on QNX:**  
+`ws` (WebSocket) and `js-yaml` are declared in `package.json` and installed via `sudo npm install` in the install directory. Both are bundled inside the Bun binary and must be provided separately when running under Node.js.
 
 ---
 
@@ -102,5 +103,5 @@ It does three things before handing off to the app:
 When Anthropic ships a new Claude Code version, only `claude-code.js` needs updating — the shim and launcher don't change.
 
 ```sh
-node extract.js --latest
+node /usr/lib/claude-code/extract.js --latest
 ```

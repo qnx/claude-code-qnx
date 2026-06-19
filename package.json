@@ -1,0 +1,10 @@
+{
+  "name": "claude-code-qnx",
+  "version": "1.0.0",
+  "description": "Run Claude Code on QNX via Node.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ws": "*",
+    "js-yaml": "*"
+  }
+}
