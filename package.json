@@ -4,7 +4,7 @@
   "description": "Run Claude Code on QNX via Node.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "ws": "*",
-    "js-yaml": "*"
+    "js-yaml": "^5.4.1",
+    "ws": "*"
   }
 }

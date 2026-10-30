@@ -1,4 +1,6 @@
 claude-code.js
+bunfs/
+bunfs-manifest.json
 node_modules/
 package-lock.json
 *.tmp
